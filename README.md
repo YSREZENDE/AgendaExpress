@@ -1,29 +1,50 @@
-# Agenda Express
+# React + TypeScript + Vite
 
-O **Agenda Express** é uma plataforma inovadora para o gerenciamento de agendamentos, projetada para atender a diversos tipos de estabelecimentos e oferecer uma experiência prática tanto para profissionais quanto para clientes. Ele conecta cabeleireiros, maquiadores, psicólogos, entre outros profissionais, diretamente com seus clientes, permitindo que ambos organizem e gerenciem seus compromissos de forma eficiente.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## **Objetivo**
-Facilitar o gerenciamento de serviços por parte dos profissionais e garantir que os clientes tenham uma experiência fluida ao agendar serviços em diversos estabelecimentos.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## **Funcionalidades**
-### **Para o Usuário Master (Profissional/Estabelecimento):**
-- 🗓️ Acesso à agenda completa do dia, com visualização dos horários e serviços agendados.
-- ✅ Ferramentas para confirmar, reagendar ou cancelar compromissos.
-- 📊 Relatórios sobre os serviços realizados e agendamentos futuros.
+## Expanding the ESLint configuration
 
-### **Para o Cliente:**
-- 🔍 Busca por serviços e estabelecimentos (ex.: cabeleireiros, maquiadores, psicólogos).
-- 📅 Agendamento direto com escolha de data, horário e profissional.
-- 📲 Recebimento de lembretes e notificações sobre compromissos futuros.
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
----
+- Configure the top-level `parserOptions` property like this:
 
-## **Visão Geral do Sistema**
-1. **Multi-Estabelecimentos**: Cada estabelecimento pode gerenciar seus serviços e horários de forma independente.
-2. **Gestão Centralizada**: Os usuários master têm acesso total à agenda do dia.
-3. **Experiência Simplificada**: Clientes podem buscar e agendar serviços em poucos cliques.
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
----
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
+
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
